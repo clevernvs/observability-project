@@ -1,5 +1,7 @@
 import express from "express";
 import client from "prom-client";
+import 'dotenv/config';
+
 
 const app = express();
 const collectDefaultMetrics = client.collectDefaultMetrics;

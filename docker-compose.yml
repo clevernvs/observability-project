@@ -1,9 +1,11 @@
 services:
   node-app:
-    build: ./src
+    build: .
     container_name: node-app
     ports:
-      - "3000:3000"
+      - "${API_PORT}:3000"
+    env_file:
+      - .env
     volumes:
       - ./src:/usr/src/app/src
     working_dir: /usr/src/app
@@ -11,19 +13,14 @@ services:
     depends_on:
       - postgres
       - redis
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/meubanco
-      - REDIS_URL=redis://redis:6379
 
   postgres:
     image: postgres:15
     container_name: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: meubanco
+    env_file:
+      - .env
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -31,13 +28,13 @@ services:
     image: redis:7
     container_name: redis
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:6379"
 
   prometheus:
     image: prom/prometheus
     container_name: prometheus
     ports:
-      - "9090:9090"
+      - "${PROMETHEUS_PORT}:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     depends_on:
@@ -47,7 +44,7 @@ services:
     image: grafana/grafana
     container_name: grafana
     ports:
-      - "3001:3000"
+      - "${GRAFANA_PORT}:3000"
     depends_on:
       - prometheus
 
@@ -55,8 +52,8 @@ services:
     image: jaegertracing/all-in-one:1.54
     container_name: jaeger
     ports:
-      - "16686:16686" # UI
-      - "6831:6831/udp" # recebimento de spans
+      - "${JAEGER_PORT}:16686"
+      - "6831:6831/udp"
       - "6832:6832/udp"
       - "14268:14268"
     environment:
