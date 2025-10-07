@@ -6,10 +6,11 @@ services:
       - "${API_PORT}:3000"
     env_file:
       - .env
-    volumes:
-      - ./src:/usr/src/app/src
     working_dir: /usr/src/app
-    command: npm start
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npx ts-node-dev --respawn --transpile-only src/index.ts
     depends_on:
       - postgres
       - redis
