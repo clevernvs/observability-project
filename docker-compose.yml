@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    command: npx ts-node-dev --respawn --transpile-only src/index.ts
+    command: npx ts-node-dev --respawn --transpile-only src/server.ts
     depends_on:
       - postgres
       - redis
