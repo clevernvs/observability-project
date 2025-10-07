@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import client from "prom-client";
-import "dotenv/config";
+// import "dotenv/config";
 
 const app = express();
 
@@ -27,4 +27,6 @@ app.get("/metrics", async (_req: Request, res: Response) => {
 });
 
 // Iniciar servidor
-app.listen(3000, () => console.log("🚀 Servidor rodando em http://localhost:3000"));
+// app.listen(3000, () => console.log("🚀 Servidor rodando em http://localhost:3000"));
+
+export default app;
